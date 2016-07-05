@@ -3,7 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 
-	"mtmScoreBoard/resources/models/response"
+	"mtm-score-board/resources/models/response"
 )
 
 func ApplyRoutes(r *gin.Engine, router *Router) {

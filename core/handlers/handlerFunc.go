@@ -8,8 +8,9 @@ import (
 	"log"
 	"sort"
 
-	"mtmScoreBoard/resources"
-	"mtmScoreBoard/resources/models/response"
+	"mtm-score-board/resources"
+	"mtm-score-board/resources/logicHandler"
+	"mtm-score-board/resources/models/response"
 )
 
 type PlaythroughHandler interface {
@@ -32,7 +33,7 @@ func (h *Handler) GetPlaythrough(c *gin.Context, playerName string) {
 	var scores []int
 	db := h.R.PostgreSql
 
-	rows, err := db.Query("SELECT scores FROM mtmScores WHERE playerName=$1", playerName)
+	rows, err := logicHandler.GetPlayThrough(db, playerName)
 
 	if err != nil {
 		log.Fatal(err)
@@ -61,9 +62,7 @@ func (h *Handler) GetPlaythrough(c *gin.Context, playerName string) {
 
 func (h *Handler) CreatePlaythrough(c *gin.Context, playthrough *response.Record) {
 	db := h.R.PostgreSql
-
-	db.Exec("INSERT INTO mtmScores (playerName, scores) VALUES ($1, $2)", playthrough.Name, playthrough.Score)
-
+	logicHandler.CreatePlayThrough(db, playthrough)
 	c.String(201, "Created record by "+playthrough.Name+" with score "+fmt.Sprint(playthrough.Score))
 }
 
@@ -71,12 +70,9 @@ func (h *Handler) ListPlaythrough(c *gin.Context) {
 	var playthrough response.Record
 	var users []response.Player
 
-	fmt.Println(h.R == nil)
-	fmt.Println(h.R.PostgreSql == nil)
+	db := h.R.PostgreSql
 
-	db := *h.R.PostgreSql
-
-	rows, err := db.Query("SELECT playerName, scores FROM mtmScores")
+	rows, err := logicHandler.ListPlayThrough(db)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -106,5 +102,4 @@ func (h *Handler) ListPlaythrough(c *gin.Context) {
 	}
 
 	c.JSON(200, users)
-
 }

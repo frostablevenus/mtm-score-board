@@ -3,10 +3,10 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 
-	"mtmScoreBoard/core/config"
-	"mtmScoreBoard/core/handlers"
-	"mtmScoreBoard/core/middleware"
-	"mtmScoreBoard/resources"
+	"mtm-score-board/core/config"
+	"mtm-score-board/core/handlers"
+	"mtm-score-board/core/middleware"
+	"mtm-score-board/resources"
 )
 
 var (

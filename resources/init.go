@@ -5,7 +5,7 @@ import (
 	"fmt"
 	_ "github.com/lib/pq"
 
-	"mtmScoreBoard/resources/constants"
+	"mtm-score-board/resources/constants"
 )
 
 type ResourceConfig struct {
@@ -28,7 +28,6 @@ func initPostgreSQL() (*sql.DB, error) {
 		":"+constants.PostgresPassword+"@"+constants.PostgresHost+
 		":"+constants.PostgresPort+"/"+constants.PostgresDB+
 		"?sslmode=disable")
-	//postgres://postgres:postgres5263@127.0.0.1:5432/mtmdb?sslmode=disable
 
 	return db, err
 }
@@ -44,10 +43,6 @@ func Init(config ResourceConfig) (*Resource, error) {
 			return nil, err
 		}
 		r.PostgreSql = db
-
-		fmt.Printf("%T %v\n", db, err)
-		fmt.Println(db == nil)
-		fmt.Println(r.PostgreSql == nil)
 	}
 
 	return &r, nil
